@@ -1,0 +1,121 @@
+server {
+	server_name gabbystask.sytes.net;
+
+	location /api/ {
+		proxy_pass http://127.0.0.1:8000;
+	}
+
+	location /admin/ {
+		proxy_pass http://127.0.0.1:8000;
+	}
+
+	location / {
+		root  /var/www/taski;
+		index  index.html index.htm;	
+		try_files $uri /index.html;
+	}
+
+	# pass PHP scripts to FastCGI server
+	#
+	#location ~ \.php$ {
+	#	include snippets/fastcgi-php.conf;
+	#
+	#	# With php-fpm (or other unix sockets):
+	#	fastcgi_pass unix:/run/php/php7.4-fpm.sock;
+	#	# With php-cgi (or other tcp sockets):
+	#	fastcgi_pass 127.0.0.1:9000;
+	#}
+
+	# deny access to .htaccess files, if Apache's document root
+	# concurs with nginx's one
+	#
+	#location ~ /\.ht {
+	#	deny all;
+	#}
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/gabbystask.sytes.net/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/gabbystask.sytes.net/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+
+}
+
+
+# Virtual Host configuration for example.com
+#
+# You can move that to a different file under sites-available/ and symlink that
+# to sites-enabled/ to enable it.
+#
+#server {
+#	listen 80;
+#	listen [::]:80;
+#
+#	server_name example.com;
+#
+#	root /var/www/example.com;
+#	index index.html;
+#
+#	location / {
+#		try_files $uri $uri/ =404;
+#	}
+#}
+server {
+    if ($host = gabbystask.sytes.net) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+
+	listen 80;
+	server_name 84.201.140.123 gabbystask.sytes.net;
+    return 404; # managed by Certbot
+
+
+}
+
+server {
+	server_name catstagram.sytes.net;
+
+	location /media/ {
+		alias /var/www/kittygram/media/;
+		autoindex on;
+		try_files $uri &uri/ =404;
+	}
+
+	location /api/ {
+		proxy_pass http://127.0.0.1:8080;
+	}
+	
+	location /admin/ {
+		proxy_pass http://127.0.0.1:8080;
+	}
+
+	location / {
+		root  /var/www/kittygram;
+		index index.html index.htm;
+		try_files $uri /index.html;
+	}
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/catstagram.sytes.net/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/catstagram.sytes.net/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+}
+
+
+server {
+    if ($host = catstagram.sytes.net) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+	listen 80;
+	server_name catstagram.sytes.net;
+    return 404; # managed by Certbot
+
+
+}

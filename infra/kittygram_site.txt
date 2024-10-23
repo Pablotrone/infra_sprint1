@@ -1,0 +1,5 @@
+IP: 84.201.140.123;
+name_taski: https://gabbystask.sytes.net;
+name_kittygram: https://catstagram.sytes.net;
+login: admin3000;
+password: 1357246qwertY;
